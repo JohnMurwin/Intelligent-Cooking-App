@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".grocery_page">
 
     <ImageView
             android:id="@+id/imageView3"
@@ -22,8 +22,8 @@
 
     <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="0dp"
-            android:layout_height="119dp"
+            android:layout_width="wrap_content"
+            android:layout_height="114dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,32 +42,33 @@
             android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="111dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="62dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView4"
             app:srcCompat="@drawable/bubble" />
 
     <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Ingredients"
+            android:text="Grocery List"
             android:textColor="@color/whiteText"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="28dp"
             android:text="Add Ingredients:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView6" />
@@ -112,54 +113,42 @@
             android:layout_height="33dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/homeImage"
             app:srcCompat="@drawable/groceryicon" />
 
     <ImageView
-            android:id="@+id/camera"
-            android:layout_width="43dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/addImage"
-            app:layout_constraintTop_toTopOf="@+id/textView2"
-            app:srcCompat="@drawable/cameraicon" />
-
-    <ImageView
             android:id="@+id/addImage"
             android:layout_width="42dp"
             android:layout_height="42dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/camera"
+            app:layout_constraintTop_toTopOf="@+id/textView2"
             app:srcCompat="@drawable/addicon" />
 
     <Button
-            android:id="@+id/findRecipes"
+            android:id="@+id/findStores"
             android:layout_width="147dp"
             android:layout_height="39dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/generalbutton"
-            android:text="Find Recipes"
+            android:text="Find Grocery Store"
             android:textColor="@color/whiteText"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/groceryImage"
             app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/homeImage"
+            app:layout_constraintBottom_toTopOf="@+id/imageView5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText">
@@ -173,7 +162,7 @@
                 android:textSize="18sp" />
 
         <CheckBox
-                android:id="@+id/checkBox1"
+                android:id="@+id/checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="CheckBox" />
