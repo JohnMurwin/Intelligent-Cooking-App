@@ -83,15 +83,21 @@ class MainActivity : AppCompatActivity() {
 
         ingredients.add(newIngredient)
 
-        checkBox1.setOnClickListener(View.OnClickListener {
-            val checkBox = this as CheckBox
+        checkBox1.setOnClickListener { v ->
+            val checkBox2 = v as CheckBox
 
-            if (checkBox.isChecked) {
+            if (checkBox2.isChecked) {
                 ingredients.add(newIngredient)
+                //String test = "List added: " + ingredients.get(iter);
+                //checkBox2.setText(test);
+                //iter++;
             } else {
+                //iter--;
+                //String test = "List removed: " + ingredients.get(iter);
                 ingredients.remove(newIngredient)
+                //checkBox2.setText(test);
             }
-        })
+        }
     }
 
     // Onclick checkbox listeners ==============================================================

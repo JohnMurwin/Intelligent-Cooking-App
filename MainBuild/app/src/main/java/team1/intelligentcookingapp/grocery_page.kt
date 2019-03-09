@@ -7,14 +7,14 @@ import android.support.v4.view.GestureDetectorCompat
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.*
+import java.util.ArrayList
 
 class grocery_page : AppCompatActivity() {
 
     private var gestureObject: GestureDetectorCompat? = null
+    internal var ingredients: MutableList<String> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,21 +28,8 @@ class grocery_page : AppCompatActivity() {
         var home = findViewById(R.id.homeImage) as ImageView
         var favorites = findViewById(R.id.favoritesImage) as ImageView
         var grocery = findViewById(R.id.groceryImage) as ImageView
-
+        var addImage = findViewById(R.id.addImage) as ImageView
         var findStores = findViewById(R.id.findStores) as Button
-
-        var ingredient1 = findViewById(R.id.checkBox) as CheckBox
-        var ingredient2 = findViewById(R.id.checkBox2) as CheckBox
-        var ingredient3 = findViewById(R.id.checkBox3) as CheckBox
-        var ingredient4 = findViewById(R.id.checkBox4) as CheckBox
-        var ingredient5 = findViewById(R.id.checkBox5) as CheckBox
-        var ingredient6 = findViewById(R.id.checkBox6) as CheckBox
-        var ingredient7 = findViewById(R.id.checkBox7) as CheckBox
-        var ingredient8 = findViewById(R.id.checkBox8) as CheckBox
-        // ingredient9 = (CheckBox)findViewById(R.id.checkBox9);
-        // ingredient10 = (CheckBox)findViewById(R.id.checkBox10);
-        // ingredient11 = (CheckBox)findViewById(R.id.checkBox11);
-        // ingredient12 = (CheckBox)findViewById(R.id.checkBox12);
 
         // Onclick image listeners =================================================================
         // =========================================================================================
@@ -68,6 +55,40 @@ class grocery_page : AppCompatActivity() {
             // Intent intent = new Intent (getBaseContext(), .class);
             // startActivity(intent);
         })
+
+        // Add image listener ----------------------------------------------------------------------
+        addImage.setOnClickListener {
+            checkBoxCreator(NewGroceryItem.getText().toString());
+        }
+
+    }
+
+    fun checkBoxCreator(newIngredient: String){
+        val linearLayout = findViewById(R.id.linearLayout2) as LinearLayout
+
+        val checkBox1 = CheckBox(this)
+        checkBox1.text = newIngredient
+        checkBox1.isChecked = true
+        linearLayout.addView(checkBox1)
+
+        ingredients.add(newIngredient)
+
+        checkBox1.setOnClickListener { v ->
+            val checkBox2 = v as CheckBox
+
+            if (checkBox2.isChecked) {
+                ingredients.add(newIngredient)
+                //String test = "List added: " + ingredients.get(iter);
+                //checkBox2.setText(test);
+                //iter++;
+            } else {
+                //iter--;
+                //String test = "List removed: " + ingredients.get(iter);
+                ingredients.remove(newIngredient)
+                //checkBox2.setText(test);
+            }
+        }
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
