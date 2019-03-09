@@ -1,5 +1,6 @@
 package team1.intelligentcookingapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 public class selected_recipe extends AppCompatActivity {
     ImageView recipeImg;
+    ImageView home, favorites, grocery;
 
     LinearLayout LL;
     TextView titleHolder;
@@ -26,6 +28,35 @@ public class selected_recipe extends AppCompatActivity {
         String[] ingredients = getIntent().getStringArrayExtra("rIngredients");
         String imageUrl = getIntent().getStringExtra("rImgUrl");
         String webUrl = getIntent().getStringExtra("rUrl");
+
+        home = (ImageView)findViewById(R.id.homeImage);
+        favorites = (ImageView)findViewById(R.id.favoritesImage);
+        grocery = (ImageView)findViewById(R.id.groceryImage);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+
+        favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), favorites_page.class);
+                startActivity(i);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            }
+        });
+
+        grocery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), grocery_page.class);
+                startActivity(i);
+            }
+        });
 
         LL = (LinearLayout)findViewById(R.id.rlinlay);
         titleHolder = (TextView)findViewById(R.id.recipeTitle);

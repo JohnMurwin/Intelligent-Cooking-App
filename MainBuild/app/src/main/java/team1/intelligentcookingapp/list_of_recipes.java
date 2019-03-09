@@ -5,12 +5,10 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import android.os.StrictMode;
 import android.widget.Space;
@@ -19,6 +17,10 @@ import com.squareup.picasso.*;
 
 public class list_of_recipes extends AppCompatActivity {
     LinearLayout LL;
+    ImageView home, favorites, grocery;
+
+    // Used if result from list of ingredients = null
+    String nullResultMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,23 +33,46 @@ public class list_of_recipes extends AppCompatActivity {
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        LL = (LinearLayout)findViewById(R.id.LinearLayout);
+        ArrayList<String> pantryList = getIntent().getStringArrayListExtra("ingredients");
 
-        List<String> pantryList = new ArrayList<>();
-        pantryList.add("bacon");
-        pantryList.add("chicken");
-        pantryList.add("garlic");
+        LL = (LinearLayout)findViewById(R.id.LinearLayout);
+        home = (ImageView)findViewById(R.id.homeImage);
+        favorites = (ImageView)findViewById(R.id.favoritesImage);
+        grocery = (ImageView)findViewById(R.id.groceryImage);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+
+        favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), favorites_page.class);
+                startActivity(i);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            }
+        });
+
+        grocery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), grocery_page.class);
+                startActivity(i);
+            }
+        });
+
         String ingredients = ListToString(pantryList);
 
         List<Recipe> recipes = getRecipes(ingredients, "r");
 
-        Log.i("list_of_recipes", String.valueOf(recipes.size()));
-
-
         generateRecipes(recipes);
     }
 
-    public String ListToString(List<String> list)
+    public String ListToString(ArrayList<String> list)
     {
         String st = "";
         for (String s : list)
@@ -67,13 +92,18 @@ public class list_of_recipes extends AppCompatActivity {
 
     public List<Recipe> getRecipes(String ingredients, String sort)
     {
-        String searchResult = Food2ForkInteract.searchRequest(ingredients, sort, "1");
-        List<String> recipeIDs = Food2ForkInteract.ParseJsonRecipes(searchResult);
-        if (recipeIDs.size() == 0)
+        List<String> recipeIDs;
+        if (ingredients.isEmpty() || ingredients == null)
         {
             String searchResultall = Food2ForkInteract.searchRequest("", sort, "1");
             recipeIDs = Food2ForkInteract.ParseJsonRecipes(searchResultall);
-
+            nullResultMsg = "No results match your ingredients. Popular recipes are shown below.";;
+        }
+        else
+        {
+            nullResultMsg = null;
+            String searchResult = Food2ForkInteract.searchRequest(ingredients, sort, "1");
+            recipeIDs = Food2ForkInteract.ParseJsonRecipes(searchResult);
         }
         List<String> recipeJsons = Food2ForkInteract.getRecipeRequest(recipeIDs);
         List<Recipe> recipes = Food2ForkInteract.parseJsonRecipe(recipeJsons);
@@ -111,9 +141,25 @@ public class list_of_recipes extends AppCompatActivity {
 
                 LinearLayout recipeLayout = new LinearLayout(LL.getContext());
                 recipeLayout.setOrientation(LinearLayout.VERTICAL);
+
+                if (nullResultMsg != null)
+                {
+                    TextView n = new TextView(recipeLayout.getContext());
+                    n.setText(nullResultMsg);
+                    n.setTextColor(Color.BLACK);
+                    n.setTextSize(18);
+                    n.setWidth(recipeLayout.getWidth());
+                    n.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    recipeLayout.addView(n);
+                    Space s = new Space(recipeLayout.getContext());
+                    s.setMinimumHeight(100);
+                    s.setMinimumWidth(recipeLayout.getWidth());
+                    recipeLayout.addView(s);
+                }
+
                 ImageView imageView = new ImageView(recipeLayout.getContext());
                 final String imageUrl = reformatURL(r.image_Url);
-                Picasso.with(recipeLayout.getContext()).load(imageUrl).resize(400, 400)
+                Picasso.with(recipeLayout.getContext()).load(imageUrl).resize(600, 500)
                         .into(imageView);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -133,8 +179,9 @@ public class list_of_recipes extends AppCompatActivity {
                 TextView t = new TextView(recipeLayout.getContext());
                 t.setText(r.title);
                 t.setTextColor(Color.BLACK);
+                //t.setBackgroundColor(Color.WHITE);
                 t.setTextSize(18);
-                t.setWidth(recipeLayout.getWidth());
+                t.setWidth(300);
                 t.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 t.setOnClickListener(new View.OnClickListener() {
                     @Override
