@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             // Intent intent = new Intent (getBaseContext(), .class);
             // startActivity(intent);
         }
-        
+
         // Add image listener ----------------------------------------------------------------------
         addImage.setOnClickListener {
             checkBoxCreator(NewIngredient.getText().toString());
@@ -81,16 +81,17 @@ class MainActivity : AppCompatActivity() {
         checkBox1.isChecked = true
         linearLayout.addView(checkBox1)
 
+        ingredients.add(newIngredient)
+
         checkBox1.setOnClickListener(View.OnClickListener {
             val checkBox = this as CheckBox
 
             if (checkBox.isChecked) {
-                ingredients.add(checkBox.text.toString())
+                ingredients.add(newIngredient)
             } else {
-                ingredients.remove(checkBox.text.toString())
+                ingredients.remove(newIngredient)
             }
         })
-
     }
 
     // Onclick checkbox listeners ==============================================================
@@ -99,6 +100,8 @@ class MainActivity : AppCompatActivity() {
     fun onCheckChanged(v: View) {
 
         val checkBox = v as CheckBox
+
+        ingredients.add(checkBox.text.toString())
 
         if (checkBox.isChecked) {
             ingredients.add(checkBox.text.toString())
