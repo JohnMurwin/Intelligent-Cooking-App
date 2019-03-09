@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-
 class Food2ForkInteract {
 
     private static final String API_URL_BASE = "https://food2fork.com/api/";
@@ -97,47 +96,49 @@ class Food2ForkInteract {
     This method calls the API and retrieves recipe data for each
     recipeID found from searchRequest
      */
-    private static List<String> getRecipeRequest(List<String> ids)
+    static List<String> getRecipeRequest(List<String> ids)
     {
         // returns list of all Json get requests, 1 per recipe
         List<String> recipeJson = new ArrayList<String>();
         if (!ids.isEmpty())
         {
-            for (String id : ids)
+            //for (String id : ids)
+            for (int i = 0; i < 3; i++)
             {
-                // Perform recipe get request
-                String searchUrl = API_URL_BASE + "get?key=" + API_KEY + "&rId=" + id;
-                try {
-                    URL obj = new URL(searchUrl);
-                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                    // Perform recipe get request
+                    String searchUrl = API_URL_BASE + "get?key=" + API_KEY + "&rId=" + ids.get(i);
+                    try {
+                        URL obj = new URL(searchUrl);
+                        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-                    // optional default is GET
-                    con.setRequestMethod("GET");
+                        // optional default is GET
+                        con.setRequestMethod("GET");
 
-                    //add request header
-                    con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 +" +
-                            "(KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393");
+                        //add request header
+                        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 +" +
+                                "(KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393");
 
-                    int responseCode = con.getResponseCode();
-                    if (responseCode != 200) {
-                        throw new RuntimeException("HttpResponseCode: " + responseCode);
-                    } else {
-                        BufferedReader in = new BufferedReader(
-                                new InputStreamReader(con.getInputStream()));
-                        String inputLine;
-                        StringBuilder response = new StringBuilder();
+                        int responseCode = con.getResponseCode();
+                        if (responseCode != 200) {
+                            throw new RuntimeException("HttpResponseCode: " + responseCode);
+                        } else {
+                            BufferedReader in = new BufferedReader(
+                                    new InputStreamReader(con.getInputStream()));
+                            String inputLine;
+                            StringBuilder response = new StringBuilder();
 
-                        while ((inputLine = in.readLine()) != null) {
-                            response.append(inputLine);
+                            while ((inputLine = in.readLine()) != null) {
+                                response.append(inputLine);
+                            }
+                            in.close();
+                            recipeJson.add(response.toString());
                         }
-                        in.close();
-                        recipeJson.add(response.toString());
                     }
-                }
-                catch (Exception ex)
-                {
-                    System.out.println(ex.getMessage());
-                }
+                    catch (Exception ex)
+                    {
+                        System.out.println(ex.getMessage());
+                    }
+
             }
             return recipeJson;
         }

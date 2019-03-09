@@ -70,8 +70,8 @@ class MainActivity : AppCompatActivity() {
 
         // Find recipe button listener -------------------------------------------------------------
         findRecipes.setOnClickListener {
-            // Intent intent = new Intent (getBaseContext(), .class);
-            // startActivity(intent);
+            val intent = Intent (baseContext, list_of_recipes::class.java);
+            startActivity(intent);
         }
 
         // Camera image listener -------------------------------------------------------------------
