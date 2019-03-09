@@ -3,28 +3,24 @@ package team1.intelligentcookingapp
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.view.GestureDetectorCompat
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    // internal var NewIngredient: EditText? = null;
-
-    // internal var home: ImageView? = null;
-    // internal var favorites: ImageView? = null;
-    // internal var grocery: ImageView? = null;
-    // internal var camera: ImageView? = null
-    // internal var addImage: ImageView? = null;
-
-    // internal var findRecipes: Button? = null;
-
-    // internal var ingredient1: CheckBox, internal var ingredient2:CheckBox, internal var ingredient3:CheckBox, internal var ingredient4:CheckBox, internal var ingredient5:CheckBox, internal var ingredient6:CheckBox
-    // internal var ingredient7: CheckBox, internal var ingredient8:CheckBox, internal var ingredient9:CheckBox? = null, internal var ingredient10:CheckBox? = null, internal var ingredient11:CheckBox? = null, internal var ingredient12:CheckBox? = null
-
+    private var gestureObject: GestureDetectorCompat? = null
+    internal var ingredients: MutableList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        gestureObject = GestureDetectorCompat(this, LearnGesture())
+
         // Variable declarations ===================================================================
 
         var NewIngredient = findViewById(R.id.editText) as EditText
@@ -37,19 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         var findRecipes = findViewById(R.id.findRecipes) as Button
 
-        var ingredient1 = findViewById(R.id.checkBox1) as CheckBox
-        var ingredient2 = findViewById(R.id.checkBox2) as CheckBox
-        var ingredient3 = findViewById(R.id.checkBox3) as CheckBox
-        var ingredient4 = findViewById(R.id.checkBox4) as CheckBox
-        var ingredient5 = findViewById(R.id.checkBox5) as CheckBox
-        var ingredient6 = findViewById(R.id.checkBox6) as CheckBox
-        var ingredient7 = findViewById(R.id.checkBox7) as CheckBox
-        var ingredient8 = findViewById(R.id.checkBox8) as CheckBox
-        // ingredient9 = (CheckBox)findViewById(R.id.checkBox9);
-        // ingredient10 = (CheckBox)findViewById(R.id.checkBox10);
-        // ingredient11 = (CheckBox)findViewById(R.id.checkBox11);
-        // ingredient12 = (CheckBox)findViewById(R.id.checkBox12);
-
         // Onclick image listeners =================================================================
         // =========================================================================================
 
@@ -61,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         favorites.setOnClickListener {
             val intent = Intent(baseContext, favorites_page::class.java)
             startActivity(intent)
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+
         }
         // Grocery image listener ------------------------------------------------------------------
         grocery.setOnClickListener {
@@ -70,30 +55,86 @@ class MainActivity : AppCompatActivity() {
 
         // Find recipe button listener -------------------------------------------------------------
         findRecipes.setOnClickListener {
-            // Intent intent = new Intent (getBaseContext(), .class);
-            // startActivity(intent);
+            //val intentFind = Intent(baseContext, ::class.java)
+            //intentFind.putStringArrayListExtra("ingredients", ingredients as ArrayList<String>)
+            //startActivity(intentFind);
         }
 
         // Camera image listener -------------------------------------------------------------------
-
+        camera.setOnClickListener {
+            // Intent intent = new Intent (getBaseContext(), .class);
+            // startActivity(intent);
+        }
+        
         // Add image listener ----------------------------------------------------------------------
-
-
-        // Onclick checkbox listeners ==============================================================
-        // =========================================================================================
-
-        // Ingredient 1 ----------------------------------------------------------------------------
-        ingredient1.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (buttonView === ingredient1) {
-                if (isChecked) {
-                } else {
-                }
-
-            }
+        addImage.setOnClickListener {
+            checkBoxCreator(NewIngredient.getText().toString());
         }
 
-        // Ingredient 2 ----------------------------------------------------------------------------
     }
 
+    fun checkBoxCreator(newIngredient: String){
+        val linearLayout = findViewById(R.id.linearLayout2) as LinearLayout
+
+        val checkBox1 = CheckBox(this)
+        checkBox1.text = newIngredient
+        checkBox1.isChecked = true
+        linearLayout.addView(checkBox1)
+
+        checkBox1.setOnClickListener(View.OnClickListener {
+            val checkBox = this as CheckBox
+
+            if (checkBox.isChecked) {
+                ingredients.add(checkBox.text.toString())
+            } else {
+                ingredients.remove(checkBox.text.toString())
+            }
+        })
+
+    }
+
+    // Onclick checkbox listeners ==============================================================
+    // =========================================================================================
+
+    fun onCheckChanged(v: View) {
+
+        val checkBox = v as CheckBox
+
+        if (checkBox.isChecked) {
+            ingredients.add(checkBox.text.toString())
+        } else {
+            ingredients.remove(checkBox.text.toString())
+        }
+    }
+
+    // Gesture listener ============================================================================
+    // =============================================================================================
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        this.gestureObject?.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+
+    internal inner class LearnGesture : GestureDetector.SimpleOnGestureListener() {
+
+        override fun onFling(
+            event1: MotionEvent, event2: MotionEvent,
+            velocityX: Float, velocityY: Float
+        ): Boolean {
+
+            if (event2.x > event1.x) {
+                val intentSwipeLeft = Intent(this@MainActivity, favorites_page::class.java)
+                finish()
+                startActivity(intentSwipeLeft)
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            }
+            else if (event2.x < event1.x) {
+                val intentSwipeRight = Intent(this@MainActivity, grocery_page::class.java)
+                finish()
+                startActivity(intentSwipeRight)
+            }
+            return true
+        }
+    }
 
 }
