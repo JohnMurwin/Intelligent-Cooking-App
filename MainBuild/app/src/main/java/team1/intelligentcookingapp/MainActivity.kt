@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity() {
 
         // Find recipe button listener -------------------------------------------------------------
         findRecipes.setOnClickListener {
-            //val intentFind = Intent(baseContext, ::class.java)
-            //intentFind.putStringArrayListExtra("ingredients", ingredients as ArrayList<String>)
-            //startActivity(intentFind);
+            val intentFind = Intent(baseContext, list_of_recipes::class.java)
+            intentFind.putStringArrayListExtra("ingredients", ingredients as ArrayList<String>)
+            startActivity(intentFind);
         }
 
         // Camera image listener -------------------------------------------------------------------
