@@ -7,7 +7,33 @@
         android:layout_height="match_parent"
         tools:context=".selected_recipe">
 
-
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@drawable/correctbackground3"
+            android:id="@+id/imageView7" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+            android:layout_width="410dp"
+            android:layout_height="241dp" app:srcCompat="@android:color/holo_green_dark"
+            android:id="@+id/imageView" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="450dp" app:layout_constraintBottom_toTopOf="@+id/homeImage"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="2dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" app:srcCompat="@drawable/recipebubble"
+            android:id="@+id/imageView8"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+    <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/bottom_action_bar"/>
     <ImageView
             android:id="@+id/homeImage"
             android:layout_width="50dp"
@@ -17,8 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/homeicon" />
-
+            app:srcCompat="@drawable/homeicon"/>
     <ImageView
             android:id="@+id/favoritesImage"
             android:layout_width="38dp"
@@ -28,8 +53,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/homeImage"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/favoritesicon" />
-
+            app:srcCompat="@drawable/favoritesicon"/>
     <ImageView
             android:id="@+id/groceryImage"
             android:layout_width="42dp"
@@ -40,22 +64,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/homeImage"
-            app:srcCompat="@drawable/groceryicon" />
-    <ImageView
-            android:layout_width="410dp"
-            android:layout_height="241dp" app:srcCompat="@android:color/holo_green_dark"
-            android:id="@+id/imageView" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="450dp" app:layout_constraintBottom_toTopOf="@+id/homeImage"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="2dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:srcCompat="@drawable/groceryicon"/>
     <ScrollView
             android:layout_width="321dp"
             android:layout_height="514dp" android:layout_marginTop="108dp"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/homeImage" app:layout_constraintVertical_bias="0.281"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp" android:id="@+id/rScroll"
-            android:background="@android:color/background_light">
+            android:background="@android:color/background_light"
+            app:layout_constraintBottom_toTopOf="@+id/imageView5" android:layout_marginBottom="8dp">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical" android:id="@+id/rlinlay">
             <TextView
