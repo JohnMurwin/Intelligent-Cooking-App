@@ -5,10 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Space;
-import android.widget.TextView;
+import android.widget.*;
 import com.squareup.picasso.Picasso;
 
 public class selected_recipe extends AppCompatActivity {
@@ -18,6 +15,7 @@ public class selected_recipe extends AppCompatActivity {
     LinearLayout LL;
     TextView titleHolder;
     TextView numOfIngred;
+    Button addIngredientsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +27,17 @@ public class selected_recipe extends AppCompatActivity {
         String imageUrl = getIntent().getStringExtra("rImgUrl");
         String webUrl = getIntent().getStringExtra("rUrl");
 
+        addIngredientsBtn = (Button)findViewById(R.id.addIngredientsBtn);
         home = (ImageView)findViewById(R.id.homeImage);
         favorites = (ImageView)findViewById(R.id.favoritesImage);
         grocery = (ImageView)findViewById(R.id.groceryImage);
+
+        addIngredientsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //send ingredients to be checkboxes
+            }
+        });
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
