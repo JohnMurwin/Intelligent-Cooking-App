@@ -6,21 +6,22 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import android.os.StrictMode;
-import android.widget.Space;
-import android.widget.TextView;
 import com.squareup.picasso.*;
 
 public class list_of_recipes extends AppCompatActivity {
     LinearLayout LL;
     ImageView home, favorites, grocery;
 
+    ImageView top_action_bar;
+
     // Used if result from list of ingredients = null
     String nullResultMsg;
+    int iter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,9 @@ public class list_of_recipes extends AppCompatActivity {
         home = (ImageView)findViewById(R.id.homeImage);
         favorites = (ImageView)findViewById(R.id.favoritesImage);
         grocery = (ImageView)findViewById(R.id.groceryImage);
+        top_action_bar = (ImageView)findViewById(R.id.imageView4);
+        top_action_bar.setId(iter);
+        iter++;
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,10 +161,27 @@ public class list_of_recipes extends AppCompatActivity {
                     recipeLayout.addView(s);
                 }
 
+                /*
+                LinearLayout recipeLayout2 = new LinearLayout(LL.getContext());
+                recipeLayout2.setOrientation(LinearLayout.VERTICAL);
+
+                ImageView imageView1 = new ImageView(this);
+                imageView1.setImageResource(R.drawable.recipebox);
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                //layoutParams.leftMargin = 0;
+                //layoutParams.topMargin = 0;
+                imageView1.setId(iter);
+                layoutParams.addRule(RelativeLayout.BELOW, iter - 1);
+                recipeLayout2.addView(imageView1, layoutParams);
+                */
+
                 ImageView imageView = new ImageView(recipeLayout.getContext());
                 final String imageUrl = reformatURL(r.image_Url);
                 Picasso.with(recipeLayout.getContext()).load(imageUrl).resize(600, 500)
                         .into(imageView);
+
+                iter++;
+
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
