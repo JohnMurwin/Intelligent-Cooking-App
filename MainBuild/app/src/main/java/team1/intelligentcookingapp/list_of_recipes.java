@@ -159,6 +159,7 @@ public class list_of_recipes extends AppCompatActivity {
                     s.setMinimumHeight(100);
                     s.setMinimumWidth(recipeLayout.getWidth());
                     recipeLayout.addView(s);
+                    nullResultMsg = null;
                 }
 
                 /*

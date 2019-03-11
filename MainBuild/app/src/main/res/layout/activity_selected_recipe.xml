@@ -87,11 +87,26 @@
             <Space
                     android:layout_width="match_parent"
                     android:layout_height="50dp"/>
-            <TextView
-                    android:text="Ingredients"
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/textView16" android:textSize="24sp"
-                    android:textColor="@color/blackText"/>
+                    android:layout_height="match_parent">
+                <TextView
+                        android:text="Ingredients"
+                        android:layout_width="208dp"
+                        android:layout_height="wrap_content" android:id="@+id/textView16" android:textSize="24sp"
+                        android:textColor="@color/blackText"/>
+                <Space
+                        android:layout_width="36dp"
+                        android:layout_height="20dp" android:layout_weight="1"/>
+                <Button
+                        android:text="Add to"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:id="@+id/addIngredientsBtn"
+                        android:layout_weight="1" android:background="@drawable/my_button_bg"
+                        android:drawableRight="@drawable/groceryiconcolor"
+                        android:textAppearance="@style/TextAppearance.AppCompat" android:textAlignment="textEnd"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
