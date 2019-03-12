@@ -15,7 +15,7 @@ import com.squareup.picasso.*;
 
 public class list_of_recipes extends AppCompatActivity {
     LinearLayout LL;
-    ImageView home, favorites, grocery;
+    ImageView home, favorites, grocery, back;
 
     ImageView top_action_bar;
 
@@ -23,10 +23,29 @@ public class list_of_recipes extends AppCompatActivity {
     String nullResultMsg;
     int iter = 1;
 
+    List<String> ingredientsList = new ArrayList<>();
+    List<String> groceryList = new ArrayList<>();
+    List<String> favoritesList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_recipes);
+
+        // Getting Intent Extras ===================================================================
+
+        Intent intent = getIntent();
+        Bundle extras = getIntent().getExtras();
+
+        if (intent.hasExtra("ingredients")) {
+            ingredientsList = extras.getStringArrayList("ingredients");
+        }
+        if (intent.hasExtra("grocery")){
+            groceryList = extras.getStringArrayList("grocery");
+        }
+        if (intent.hasExtra("favorites")){
+            favoritesList = extras.getStringArrayList("favorites");
+        }
 
         // For some reason this makes the API connection work
         // move API work to a service in the future?
@@ -37,6 +56,7 @@ public class list_of_recipes extends AppCompatActivity {
         ArrayList<String> pantryList = getIntent().getStringArrayListExtra("ingredients");
 
         LL = (LinearLayout)findViewById(R.id.LinearLayout);
+        back = (ImageView)findViewById(R.id.backarrow);
         home = (ImageView)findViewById(R.id.homeImage);
         favorites = (ImageView)findViewById(R.id.favoritesImage);
         grocery = (ImageView)findViewById(R.id.groceryImage);
@@ -48,6 +68,9 @@ public class list_of_recipes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), MainActivity.class);
+                i.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
                 startActivity(i);
             }
         });
@@ -56,8 +79,10 @@ public class list_of_recipes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), favorites_page.class);
+                i.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
                 startActivity(i);
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
         });
 
@@ -65,6 +90,20 @@ public class list_of_recipes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), grocery_page.class);
+                i.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
+                startActivity(i);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(),MainActivity.class);
+                i.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
                 startActivity(i);
             }
         });
@@ -144,6 +183,7 @@ public class list_of_recipes extends AppCompatActivity {
                 }
 
                 LinearLayout recipeLayout = new LinearLayout(LL.getContext());
+                //LinearLayout recipeLayout = findViewById(R.id.linearLayout);
                 recipeLayout.setOrientation(LinearLayout.VERTICAL);
 
                 if (nullResultMsg != null)
@@ -162,19 +202,13 @@ public class list_of_recipes extends AppCompatActivity {
                     nullResultMsg = null;
                 }
 
-                /*
-                LinearLayout recipeLayout2 = new LinearLayout(LL.getContext());
-                recipeLayout2.setOrientation(LinearLayout.VERTICAL);
+
+                FrameLayout recipeLayout2 = findViewById(R.id.framelayout);
 
                 ImageView imageView1 = new ImageView(this);
                 imageView1.setImageResource(R.drawable.recipebox);
-                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                //layoutParams.leftMargin = 0;
-                //layoutParams.topMargin = 0;
-                imageView1.setId(iter);
-                layoutParams.addRule(RelativeLayout.BELOW, iter - 1);
-                recipeLayout2.addView(imageView1, layoutParams);
-                */
+                recipeLayout2.addView(imageView1);
+
 
                 ImageView imageView = new ImageView(recipeLayout.getContext());
                 final String imageUrl = reformatURL(r.image_Url);
@@ -191,6 +225,10 @@ public class list_of_recipes extends AppCompatActivity {
                         intent.putExtra("rIngredients", ingredients);
                         intent.putExtra("rImgUrl", imageUrl);
                         intent.putExtra("rUrl", rURL);
+
+                        intent.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                        intent.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                        intent.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
 
                         startActivity(intent);
                     }
@@ -213,6 +251,11 @@ public class list_of_recipes extends AppCompatActivity {
                         intent.putExtra("rIngredients", ingredients);
                         intent.putExtra("rImgUrl", imageUrl);
                         intent.putExtra("rUrl", rURL);
+
+                        intent.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                        intent.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                        intent.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
+
                         startActivity(intent);
                     }
                 });

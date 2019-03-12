@@ -8,41 +8,62 @@ import android.view.View;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class selected_recipe extends AppCompatActivity {
     ImageView recipeImg;
-    ImageView home, favorites, grocery;
+    ImageView home, favorites, grocery, back;
 
     LinearLayout LL;
     TextView titleHolder;
     TextView numOfIngred;
     Button addIngredientsBtn;
 
+    List<String> ingredientsList = new ArrayList<>();
+    List<String> groceryList = new ArrayList<>();
+    List<String> favoritesList = new ArrayList<>();
+
+    String[] ingredients;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_recipe);
 
+        // Getting Intent Extras ===================================================================
+
+        Intent intent = getIntent();
+        Bundle extras = getIntent().getExtras();
+
+        if (intent.hasExtra("ingredients")) {
+            ingredientsList = extras.getStringArrayList("ingredients");
+        }
+        if (intent.hasExtra("grocery")){
+            groceryList = extras.getStringArrayList("grocery");
+        }
+        if (intent.hasExtra("favorites")){
+            favoritesList = extras.getStringArrayList("favorites");
+        }
+
         String title = getIntent().getStringExtra("rTitle");
-        String[] ingredients = getIntent().getStringArrayExtra("rIngredients");
+        ingredients = getIntent().getStringArrayExtra("rIngredients");
         String imageUrl = getIntent().getStringExtra("rImgUrl");
         String webUrl = getIntent().getStringExtra("rUrl");
 
+        back = (ImageView)findViewById(R.id.backarrow);
         addIngredientsBtn = (Button)findViewById(R.id.addIngredientsBtn);
         home = (ImageView)findViewById(R.id.homeImage);
         favorites = (ImageView)findViewById(R.id.favoritesImage);
         grocery = (ImageView)findViewById(R.id.groceryImage);
 
-        addIngredientsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //send ingredients to be checkboxes
-            }
-        });
-
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), MainActivity.class);
+                i.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
                 startActivity(i);
             }
         });
@@ -51,6 +72,9 @@ public class selected_recipe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), favorites_page.class);
+                i.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
                 startActivity(i);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
@@ -60,6 +84,20 @@ public class selected_recipe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), grocery_page.class);
+                i.putStringArrayListExtra("ingredients", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
+                startActivity(i);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), list_of_recipes.class);
+                i.putStringArrayListExtra("ingredient", (ArrayList<String>) ingredientsList);
+                i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
+                i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
                 startActivity(i);
             }
         });
@@ -102,5 +140,21 @@ public class selected_recipe extends AppCompatActivity {
         stepURL.setTextSize(24);
         LL.addView(stepURL);
 
+        addIngredientsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addGroceryItems(ingredients);
+            }
+        });
+
+    }
+
+    public void addGroceryItems(String[] ingredients){
+        String ingredientSize = ingredients.length + " ingredients";
+        numOfIngred.setText(ingredientSize);
+        for (String i : ingredients)
+        {
+            groceryList.add(i);
+        }
     }
 }

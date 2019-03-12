@@ -34,6 +34,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/bottom_action_bar"/>
+
+    <ImageView
+            android:layout_width="42dp"
+            android:layout_height="0dp" app:srcCompat="@drawable/backarrow" android:id="@+id/backarrow"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/>
+
     <ImageView
             android:id="@+id/homeImage"
             android:layout_width="50dp"

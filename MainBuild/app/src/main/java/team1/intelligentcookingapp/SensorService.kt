@@ -90,9 +90,11 @@ class SensorService : Service(), SensorEventListener {
         if (deltaX > shakeThreshold && deltaY > shakeThreshold
             || deltaX > shakeThreshold && deltaZ > shakeThreshold
             || deltaY > shakeThreshold && deltaZ > shakeThreshold
-        ) {
+        )
+        {
             flag = true
-        } else {
+        }
+        else {
             flag = false
         }
 
