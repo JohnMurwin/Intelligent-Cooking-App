@@ -1,8 +1,12 @@
 package team1.intelligentcookingapp
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.support.v4.view.GestureDetectorCompat
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -13,6 +17,11 @@ import java.util.ArrayList
 class grocery_page : AppCompatActivity() {
 
     private var gestureObject: GestureDetectorCompat? = null
+
+    private var sensorIntent: Intent? = null
+    private var myService: SensorService? = null
+    private var isServiceBound: Boolean = false
+    private var myServiceConnection: ServiceConnection? = null
 
     internal var ingredientsList: MutableList<String> = ArrayList()
     internal var groceryList: MutableList<String> = ArrayList()
@@ -137,6 +146,20 @@ class grocery_page : AppCompatActivity() {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureObject?.onTouchEvent(event)
+
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            sensorIntent = Intent(applicationContext, SensorService::class.java)
+            startService(sensorIntent)
+            bindMyService()
+        } else if (event.action == MotionEvent.ACTION_UP) {
+            if (isServiceBound) {
+                if (myService!!.shakeDetected()) {
+                    clearIngredients()
+                    ingredientsList.clear()
+                }
+            }
+        }
+
         return super.onTouchEvent(event)
     }
 
@@ -166,5 +189,31 @@ class grocery_page : AppCompatActivity() {
             }
             return true
         }
+    }
+
+    // Accelerometer ===============================================================================
+    // =============================================================================================
+
+    private fun bindMyService() {
+        if (myServiceConnection == null) {
+            myServiceConnection = object : ServiceConnection {
+                override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
+                    val myServiceBinder = iBinder as SensorService.MyLocalBinder
+                    myService = myServiceBinder.getService()
+                    isServiceBound = true
+                }
+
+                override fun onServiceDisconnected(componentName: ComponentName) {
+                    isServiceBound = false
+                }
+            }
+        }
+
+        bindService(sensorIntent, myServiceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    private fun clearIngredients() {
+        val linearLayout = findViewById<LinearLayout>(R.id.linearLayout2)
+        linearLayout.removeAllViewsInLayout()
     }
 }

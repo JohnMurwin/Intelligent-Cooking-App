@@ -209,8 +209,10 @@ class MainActivity : AppCompatActivity() {
             bindMyService()
         } else if (event.action == MotionEvent.ACTION_UP) {
             if (isServiceBound) {
-                if (myService!!.shakeDetected())
+                if (myService!!.shakeDetected()) {
                     clearIngredients()
+                    ingredientsList.clear()
+                }
             }
         }
 
