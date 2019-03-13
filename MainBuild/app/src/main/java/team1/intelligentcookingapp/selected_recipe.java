@@ -2,7 +2,11 @@ package team1.intelligentcookingapp;
 
 import android.content.Intent;
 import android.graphics.Color;
+<<<<<<< HEAD
 import android.graphics.PorterDuff;
+=======
+import android.net.Uri;
+>>>>>>> 1af2211f0fdd57917ca49127b16181da8a44ae67
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -51,7 +55,7 @@ public class selected_recipe extends AppCompatActivity {
         String title = getIntent().getStringExtra("rTitle");
         ingredients = getIntent().getStringArrayExtra("rIngredients");
         String imageUrl = getIntent().getStringExtra("rImgUrl");
-        String webUrl = getIntent().getStringExtra("rUrl");
+        final String webUrl = getIntent().getStringExtra("rUrl");
 
         back = (ImageView)findViewById(R.id.backarrow);
         star = (ImageView)findViewById(R.id.star);
@@ -159,10 +163,22 @@ public class selected_recipe extends AppCompatActivity {
         LL.addView(stepHead);
 
         TextView stepURL = new TextView(LL.getContext());
-        String stepDescript = "View on " + webUrl;
+        String stepDescript = "View on ";
         stepURL.setText(stepDescript);
         stepURL.setTextSize(24);
         LL.addView(stepURL);
+
+        TextView urlText = new TextView(LL.getContext());
+        urlText.setText(webUrl);
+        urlText.setTextSize(24);
+        urlText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl));
+                startActivity(browserIntent);
+            }
+        });
+        LL.addView(urlText);
 
         addIngredientsBtn.setOnClickListener(new View.OnClickListener() {
             @Override

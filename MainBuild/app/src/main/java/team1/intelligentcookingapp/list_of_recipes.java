@@ -1,7 +1,6 @@
 package team1.intelligentcookingapp;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import com.squareup.picasso.*;
 public class list_of_recipes extends AppCompatActivity {
     LinearLayout LL;
     ImageView home, favorites, grocery, back;
+    FrameLayout recipeLayout2;
 
     ImageView top_action_bar;
 
@@ -56,6 +56,7 @@ public class list_of_recipes extends AppCompatActivity {
 
         ArrayList<String> pantryList = getIntent().getStringArrayListExtra("ingredients");
 
+        recipeLayout2 = findViewById(R.id.framelayout);
         LL = (LinearLayout)findViewById(R.id.LinearLayout);
         back = (ImageView)findViewById(R.id.backarrow);
         home = (ImageView)findViewById(R.id.homeImage);
@@ -114,6 +115,10 @@ public class list_of_recipes extends AppCompatActivity {
 
         List<Recipe> recipes = getRecipes(ingredients, "r");
 
+        ImageView imageView1 = new ImageView(this);
+        imageView1.setImageResource(R.drawable.recipebox);
+        recipeLayout2.addView(imageView1);
+
         generateRecipes(recipes);
     }
 
@@ -138,11 +143,11 @@ public class list_of_recipes extends AppCompatActivity {
     public List<Recipe> getRecipes(String ingredients, String sort)
     {
         List<String> recipeIDs;
-        if (ingredients.isEmpty() || ingredients == null)
+        if (ingredients.isEmpty())
         {
             String searchResultall = Food2ForkInteract.searchRequest("", sort, "1");
             recipeIDs = Food2ForkInteract.ParseJsonRecipes(searchResultall);
-            nullResultMsg = "No results match your ingredients. Popular recipes are shown below.";;
+            nullResultMsg = "No results match your ingredients. Try narrowing your ingredient search.";
         }
         else
         {
@@ -185,7 +190,6 @@ public class list_of_recipes extends AppCompatActivity {
                 }
 
                 LinearLayout recipeLayout = new LinearLayout(LL.getContext());
-                //LinearLayout recipeLayout = findViewById(R.id.linearLayout);
                 recipeLayout.setOrientation(LinearLayout.VERTICAL);
 
                 if (nullResultMsg != null)
@@ -204,6 +208,7 @@ public class list_of_recipes extends AppCompatActivity {
                     nullResultMsg = null;
                 }
 
+<<<<<<< HEAD
 
                 /*
                 FrameLayout recipeLayout2 = findViewById(R.id.framelayout);
@@ -213,6 +218,8 @@ public class list_of_recipes extends AppCompatActivity {
                 recipeLayout2.addView(imageView1);
                 */
 
+=======
+>>>>>>> 1af2211f0fdd57917ca49127b16181da8a44ae67
                 ImageView imageView = new ImageView(recipeLayout.getContext());
                 final String imageUrl = reformatURL(r.image_Url);
                 Picasso.with(recipeLayout.getContext()).load(imageUrl).resize(600, 500)
@@ -238,7 +245,7 @@ public class list_of_recipes extends AppCompatActivity {
 
                 String recipeTitle = r.title;
                 TextView t = new TextView(recipeLayout.getContext());
-                t.setText(r.title);
+                t.setText(recipeTitle);
                 t.setTextColor(Color.BLACK);
                 //t.setBackgroundColor(Color.WHITE);
                 t.setTextSize(18);
