@@ -2,11 +2,8 @@ package team1.intelligentcookingapp;
 
 import android.content.Intent;
 import android.graphics.Color;
-<<<<<<< HEAD
 import android.graphics.PorterDuff;
-=======
 import android.net.Uri;
->>>>>>> 1af2211f0fdd57917ca49127b16181da8a44ae67
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;

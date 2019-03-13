@@ -21,7 +21,6 @@ import java.util.ArrayList
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var gestureObject: GestureDetectorCompat? = null
-    internal var ingredients: MutableList<String> = ArrayList()
 
     private var sensorIntent: Intent? = null
     private var myService: SensorService? = null

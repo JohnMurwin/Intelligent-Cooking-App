@@ -208,8 +208,6 @@ public class list_of_recipes extends AppCompatActivity {
                     nullResultMsg = null;
                 }
 
-<<<<<<< HEAD
-
                 /*
                 FrameLayout recipeLayout2 = findViewById(R.id.framelayout);
 
@@ -218,8 +216,6 @@ public class list_of_recipes extends AppCompatActivity {
                 recipeLayout2.addView(imageView1);
                 */
 
-=======
->>>>>>> 1af2211f0fdd57917ca49127b16181da8a44ae67
                 ImageView imageView = new ImageView(recipeLayout.getContext());
                 final String imageUrl = reformatURL(r.image_Url);
                 Picasso.with(recipeLayout.getContext()).load(imageUrl).resize(600, 500)
