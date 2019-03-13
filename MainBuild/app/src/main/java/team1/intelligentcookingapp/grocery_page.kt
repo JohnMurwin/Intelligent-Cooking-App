@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.PorterDuff
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
@@ -63,7 +64,6 @@ class grocery_page : AppCompatActivity() {
         // Onclick image listeners =================================================================
         // =========================================================================================
 
-        // Home image listener ---------------------------------------------------------------------
         home.setOnClickListener(View.OnClickListener {
             val intent = Intent(baseContext, MainActivity::class.java)
             intent.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -72,7 +72,7 @@ class grocery_page : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         })
-        // Favorites image listener ----------------------------------------------------------------
+
         favorites.setOnClickListener(View.OnClickListener {
             val intent2 = Intent(baseContext, favorites_page::class.java)
             intent2.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -80,7 +80,8 @@ class grocery_page : AppCompatActivity() {
             intent2.putStringArrayListExtra("favorites", favoritesList as ArrayList<String>)
             startActivity(intent2)
         })
-        // Grocery image listener ------------------------------------------------------------------
+
+        grocery.setColorFilter(grocery.context.resources.getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP)
         grocery.setOnClickListener(View.OnClickListener {
             // Already on the grocery page
         })
@@ -125,20 +126,15 @@ class grocery_page : AppCompatActivity() {
         linearLayout.addView(checkBox1)
 
         groceryList.add(newIngredient)
+        //Toast.makeText(getApplicationContext(), "Grocery Item Added", Toast.LENGTH_SHORT).show()
 
         checkBox1.setOnClickListener { v ->
             val checkBox2 = v as CheckBox
 
             if (checkBox2.isChecked) {
                 groceryList.add(newIngredient)
-                //String test = "List added: " + ingredients.get(iter);
-                //checkBox2.setText(test);
-                //iter++;
             } else {
-                //iter--;
-                //String test = "List removed: " + ingredients.get(iter);
                 groceryList.remove(newIngredient)
-                //checkBox2.setText(test);
             }
         }
 
@@ -155,7 +151,7 @@ class grocery_page : AppCompatActivity() {
             if (isServiceBound) {
                 if (myService!!.shakeDetected()) {
                     clearIngredients()
-                    ingredientsList.clear()
+                    groceryList.clear()
                 }
             }
         }
@@ -215,5 +211,6 @@ class grocery_page : AppCompatActivity() {
     private fun clearIngredients() {
         val linearLayout = findViewById<LinearLayout>(R.id.linearLayout2)
         linearLayout.removeAllViewsInLayout()
+        Toast.makeText(getApplicationContext(), "Grocery List Cleared", Toast.LENGTH_SHORT).show()
     }
 }

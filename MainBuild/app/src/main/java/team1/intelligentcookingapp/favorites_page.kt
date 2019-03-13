@@ -1,6 +1,7 @@
 package team1.intelligentcookingapp
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.GestureDetectorCompat
@@ -52,7 +53,6 @@ class favorites_page : AppCompatActivity() {
         // Onclick image listeners =================================================================
         // =========================================================================================
 
-        // Home image listener ---------------------------------------------------------------------
         home.setOnClickListener(View.OnClickListener {
             val intent = Intent(baseContext, MainActivity::class.java)
             intent.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -60,11 +60,12 @@ class favorites_page : AppCompatActivity() {
             intent.putStringArrayListExtra("favorites", favoritesList as ArrayList<String>)
             startActivity(intent)
         })
-        // Favorites image listener ----------------------------------------------------------------
+
+        favorites.setColorFilter(favorites.context.resources.getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP)
         favorites.setOnClickListener(View.OnClickListener {
             // Already on the favorites page
         })
-        // Grocery image listener ------------------------------------------------------------------
+
         grocery.setOnClickListener(View.OnClickListener {
             val intent2 = Intent(baseContext, grocery_page::class.java)
             intent2.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -73,10 +74,6 @@ class favorites_page : AppCompatActivity() {
             startActivity(intent2)
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         })
-
-        // Camera image listener -------------------------------------------------------------------
-
-        // Add image listener ----------------------------------------------------------------------
 
         // Onclick text listeners ==============================================================
         // =========================================================================================

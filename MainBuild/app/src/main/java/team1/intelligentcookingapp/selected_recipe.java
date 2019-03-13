@@ -2,6 +2,7 @@ package team1.intelligentcookingapp;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class selected_recipe extends AppCompatActivity {
     ImageView recipeImg;
-    ImageView home, favorites, grocery, back;
+    ImageView home, favorites, grocery, back, star;
 
     LinearLayout LL;
     TextView titleHolder;
@@ -25,6 +26,7 @@ public class selected_recipe extends AppCompatActivity {
     List<String> favoritesList = new ArrayList<>();
 
     String[] ingredients;
+    boolean selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +54,13 @@ public class selected_recipe extends AppCompatActivity {
         String webUrl = getIntent().getStringExtra("rUrl");
 
         back = (ImageView)findViewById(R.id.backarrow);
+        star = (ImageView)findViewById(R.id.star);
         addIngredientsBtn = (Button)findViewById(R.id.addIngredientsBtn);
         home = (ImageView)findViewById(R.id.homeImage);
         favorites = (ImageView)findViewById(R.id.favoritesImage);
         grocery = (ImageView)findViewById(R.id.groceryImage);
 
+        home.setColorFilter(home.getContext().getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +103,26 @@ public class selected_recipe extends AppCompatActivity {
                 i.putStringArrayListExtra("grocery", (ArrayList<String>) groceryList);
                 i.putStringArrayListExtra("favorites", (ArrayList<String>) favoritesList);
                 startActivity(i);
+            }
+        });
+
+        selected = false;
+        star.setColorFilter(star.getContext().getResources().getColor(R.color.DarkGrey), PorterDuff.Mode.SRC_ATOP);
+        star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selected == false){
+                    selected = true;
+                    star.setColorFilter(star.getContext().getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
+                    favoritesList.add(titleHolder.getText().toString());
+                    Toast.makeText(getApplicationContext(), "Recipe Added To Favorites", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    selected = false;
+                    star.setColorFilter(star.getContext().getResources().getColor(R.color.DarkGrey), PorterDuff.Mode.SRC_ATOP);
+                    favoritesList.remove(titleHolder.getText().toString());
+                    Toast.makeText(getApplicationContext(), "Recipe Removed From Favorites", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -155,6 +179,7 @@ public class selected_recipe extends AppCompatActivity {
         for (String i : ingredients)
         {
             groceryList.add(i);
+            Toast.makeText(getApplicationContext(), "Ingredients Added to Grocery List", Toast.LENGTH_SHORT).show();
         }
     }
 }

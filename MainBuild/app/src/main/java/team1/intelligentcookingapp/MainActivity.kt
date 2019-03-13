@@ -4,6 +4,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.PorterDuff
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
@@ -14,7 +18,7 @@ import android.view.View
 import android.widget.*
 import java.util.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var gestureObject: GestureDetectorCompat? = null
     internal var ingredients: MutableList<String> = ArrayList()
@@ -66,11 +70,12 @@ class MainActivity : AppCompatActivity() {
         // Onclick image listeners =================================================================
         // =========================================================================================
 
-        // Home image listener ---------------------------------------------------------------------
+        home.setColorFilter(home.context.resources.getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP)
         home.setOnClickListener {
             // Already on the home page
         }
-        // Favorites image listener ----------------------------------------------------------------
+
+
         favorites.setOnClickListener {
             val intent = Intent(baseContext, favorites_page::class.java)
             intent.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -80,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
 
         }
-        // Grocery image listener ------------------------------------------------------------------
+
         grocery.setOnClickListener {
             val intent2 = Intent(baseContext, grocery_page::class.java)
             intent2.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -89,7 +94,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent2)
         }
 
-        // Find recipe button listener -------------------------------------------------------------
         findRecipes.setOnClickListener {
             val intentFind = Intent(baseContext, list_of_recipes::class.java)
             intentFind.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -98,36 +102,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intentFind);
         }
 
-        // Camera image listener -------------------------------------------------------------------
         camera.setOnClickListener {
             // Intent intent = new Intent (getBaseContext(), .class);
             // startActivity(intent);
         }
 
-        // Add image listener ----------------------------------------------------------------------
         addImage.setOnClickListener {
             checkBoxCreator(NewIngredient.getText().toString());
         }
-
-        /*
-        val imageView = findViewById<View>(R.id.imageView3) as ImageView
-        imageView.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                sensorIntent = Intent(applicationContext, SensorService::class.java)
-                startService(sensorIntent)
-                bindMyService()
-                return@OnTouchListener true
-            } else if (event.action == MotionEvent.ACTION_UP) {
-                if (isServiceBound) {
-                    if (myService!!.shakeDetected())
-                        clearIngredients()
-                }
-                return@OnTouchListener true
-            }
-            return@OnTouchListener false
-        })
-        */
-
     }
 
     // Saved CheckBox Creator ================================================================================================
@@ -163,20 +145,14 @@ class MainActivity : AppCompatActivity() {
         linearLayout.addView(checkBox1)
 
         ingredientsList.add(newIngredient)
+        //Toast.makeText(getApplicationContext(), "Ingredient added", Toast.LENGTH_SHORT).show()
 
         checkBox1.setOnClickListener { v ->
             val checkBox2 = v as CheckBox
-
             if (checkBox2.isChecked) {
                 ingredientsList.add(newIngredient)
-                //String test = "List added: " + ingredients.get(iter);
-                //checkBox2.setText(test);
-                //iter++;
             } else {
-                //iter--;
-                //String test = "List removed: " + ingredients.get(iter);
                 ingredientsList.remove(newIngredient)
-                //checkBox2.setText(test);
             }
         }
     }
@@ -185,11 +161,8 @@ class MainActivity : AppCompatActivity() {
     // =========================================================================================
 
     fun onCheckChanged(v: View) {
-
         val checkBox = v as CheckBox
-
         ingredientsList.add(checkBox.text.toString())
-
         if (checkBox.isChecked) {
             ingredientsList.add(checkBox.text.toString())
         } else {
@@ -202,6 +175,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureObject?.onTouchEvent(event)
+
 
         if (event.action == MotionEvent.ACTION_DOWN) {
             sensorIntent = Intent(applicationContext, SensorService::class.java)
@@ -268,8 +242,25 @@ class MainActivity : AppCompatActivity() {
         bindService(sensorIntent, myServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+            sensorIntent = Intent(applicationContext, SensorService::class.java)
+            startService(sensorIntent)
+            bindMyService()
+            if (isServiceBound) {
+                if (myService!!.shakeDetected()) {
+                    clearIngredients()
+                    ingredientsList.clear()
+                }
+            }
+    }
+
     private fun clearIngredients() {
         val linearLayout = findViewById<LinearLayout>(R.id.linearLayout2)
         linearLayout.removeAllViewsInLayout()
+        Toast.makeText(getApplicationContext(), "Pantry list cleared", Toast.LENGTH_SHORT).show()
     }
 }

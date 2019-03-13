@@ -9,7 +9,7 @@
 
     <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
+            android:layout_width="411dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="6dp"
@@ -18,7 +18,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/correctbackground3" />
+            app:srcCompat="@drawable/correctbackground3"/>
 
     <ImageView
             android:id="@+id/imageView4"

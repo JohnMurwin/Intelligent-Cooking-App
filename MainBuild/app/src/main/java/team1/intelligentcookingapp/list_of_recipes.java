@@ -3,6 +3,7 @@ package team1.intelligentcookingapp;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -64,6 +65,7 @@ public class list_of_recipes extends AppCompatActivity {
         top_action_bar.setId(iter);
         iter++;
 
+        home.setColorFilter(home.getContext().getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,19 +205,18 @@ public class list_of_recipes extends AppCompatActivity {
                 }
 
 
+                /*
                 FrameLayout recipeLayout2 = findViewById(R.id.framelayout);
 
                 ImageView imageView1 = new ImageView(this);
                 imageView1.setImageResource(R.drawable.recipebox);
                 recipeLayout2.addView(imageView1);
-
+                */
 
                 ImageView imageView = new ImageView(recipeLayout.getContext());
                 final String imageUrl = reformatURL(r.image_Url);
                 Picasso.with(recipeLayout.getContext()).load(imageUrl).resize(600, 500)
                         .into(imageView);
-
-                iter++;
 
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
