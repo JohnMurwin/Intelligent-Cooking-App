@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.PorterDuff
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
@@ -15,7 +18,7 @@ import android.view.View
 import android.widget.*
 import java.util.ArrayList
 
-class grocery_page : AppCompatActivity() {
+class grocery_page : AppCompatActivity(), SensorEventListener {
 
     private var gestureObject: GestureDetectorCompat? = null
 
@@ -206,6 +209,22 @@ class grocery_page : AppCompatActivity() {
         }
 
         bindService(sensorIntent, myServiceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        sensorIntent = Intent(applicationContext, SensorService::class.java)
+        startService(sensorIntent)
+        bindMyService()
+        if (isServiceBound) {
+            if (myService!!.shakeDetected()) {
+                clearIngredients()
+                ingredientsList.clear()
+            }
+        }
     }
 
     private fun clearIngredients() {

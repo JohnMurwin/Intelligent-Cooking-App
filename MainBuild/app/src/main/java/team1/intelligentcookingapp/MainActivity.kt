@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val intent = intent
         val extras = getIntent().extras
 
-        clearIngredients()
-
         if (intent.hasExtra("ingredients")) {
             ingredientsList = extras!!.getStringArrayList("ingredients")
             savedCheckBoxCreator(ingredientsList as ArrayList<String>)
