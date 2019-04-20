@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         var findRecipes = findViewById(R.id.findRecipes) as Button
 
+        mResultTextView = findViewById(R.id.result_textview)
+
         // Onclick image listeners =================================================================
         // =========================================================================================
 
@@ -106,7 +108,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        mResultTextView = findViewById(R.id.result_textview)
+
 
         findViewById<Button>(R.id.scan_barcode_button).setOnClickListener {
             val intent = Intent(applicationContext, BarcodeCaptureActivity::class.java)
