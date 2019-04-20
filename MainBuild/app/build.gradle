@@ -40,4 +40,7 @@ dependencies {
     picasso is used to load images from URLs to activity
      */
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    //Google Vision API
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
 }

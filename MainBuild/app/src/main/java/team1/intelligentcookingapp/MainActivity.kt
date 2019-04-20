@@ -12,10 +12,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.view.GestureDetectorCompat
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
+import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.android.gms.vision.barcode.Barcode
+import team1.intelligentcookingapp.barcode.BarcodeCaptureActivity
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -26,6 +30,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var myService: SensorService? = null
     private var isServiceBound: Boolean = false
     private var myServiceConnection: ServiceConnection? = null
+
+    private lateinit var mResultTextView: TextView
 
     internal var ingredientsList: MutableList<String> = ArrayList()
     internal var groceryList: MutableList<String> = ArrayList()
@@ -99,9 +105,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             startActivity(intentFind);
         }
 
-        camera.setOnClickListener {
-            // Intent intent = new Intent (getBaseContext(), .class);
-            // startActivity(intent);
+
+        mResultTextView = findViewById(R.id.result_textview)
+
+        findViewById<Button>(R.id.scan_barcode_button).setOnClickListener {
+            val intent = Intent(applicationContext, BarcodeCaptureActivity::class.java)
+            startActivityForResult(intent, BARCODE_READER_REQUEST_CODE)
         }
 
         addImage.setOnClickListener {
@@ -259,5 +268,26 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val linearLayout = findViewById<LinearLayout>(R.id.linearLayout2)
         linearLayout.removeAllViewsInLayout()
         Toast.makeText(getApplicationContext(), "Pantry list cleared", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == BARCODE_READER_REQUEST_CODE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    val barcode = data.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)
+                    val p = barcode.cornerPoints
+                    mResultTextView.text = barcode.displayValue             //BARCODE VALUE HERE -> THROW THIS INTO THE VALUE ARRAY
+                } else
+                    mResultTextView.setText(R.string.no_barcode_captured)
+            } else
+                Log.e(LOG_TAG, String.format(getString(R.string.barcode_error_format),
+                    CommonStatusCodes.getStatusCodeString(resultCode)))
+        } else
+            super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    companion object {
+        private val LOG_TAG = MainActivity::class.java.simpleName
+        private val BARCODE_READER_REQUEST_CODE = 1
     }
 }
