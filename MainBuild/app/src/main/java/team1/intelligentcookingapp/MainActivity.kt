@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             // Already on the home page
         }
 
-
         favorites.setOnClickListener {
             val intent = Intent(baseContext, favorites_page::class.java)
             intent.putStringArrayListExtra("ingredients", ingredientsList as ArrayList<String>)
@@ -88,7 +87,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             intent.putStringArrayListExtra("favorites", favoritesList as ArrayList<String>)
             startActivity(intent)
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-
         }
 
         grocery.setOnClickListener {
@@ -120,7 +118,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    // Saved CheckBox Creator ================================================================================================
+    // Saved CheckBox Creator ==========================================================================================
     // =================================================================================================================
 
     fun savedCheckBoxCreator(savedIngredient: ArrayList<*>) {
@@ -138,6 +136,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             if ((duplicate == false)) {
                 checkBoxCreator(savedI)
             }
+        }
+    }
+
+    fun onCheckChanged(v: View){
+        val checkBox = v as CheckBox
+        ingredientsList.add(checkBox.text.toString())
+        if (checkBox.isChecked){
+            ingredientsList.add(checkBox.text.toString())
+        }
+        else {
+            ingredientsList.remove(checkBox.text.toString())
         }
     }
 
@@ -165,25 +174,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    // Onclick checkbox listeners ==============================================================
-    // =========================================================================================
+    // Gesture listener ================================================================================================
+    // =================================================================================================================
 
-    fun onCheckChanged(v: View) {
-        val checkBox = v as CheckBox
-        ingredientsList.add(checkBox.text.toString())
-        if (checkBox.isChecked) {
-            ingredientsList.add(checkBox.text.toString())
-        } else {
-            ingredientsList.remove(checkBox.text.toString())
-        }
-    }
-
-    // Gesture listener ============================================================================
-    // =============================================================================================
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureObject?.onTouchEvent(event)
-
 
         if (event.action == MotionEvent.ACTION_DOWN) {
             sensorIntent = Intent(applicationContext, SensorService::class.java)
@@ -197,9 +193,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 }
             }
         }
-
         return super.onTouchEvent(event)
     }
+
 
     internal inner class LearnGesture : GestureDetector.SimpleOnGestureListener() {
 
@@ -240,19 +236,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     myService = myServiceBinder.getService()
                     isServiceBound = true
                 }
-
                 override fun onServiceDisconnected(componentName: ComponentName) {
                     isServiceBound = false
                 }
             }
         }
-
         bindService(sensorIntent, myServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
-
-    }
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
     override fun onSensorChanged(event: SensorEvent) {
             sensorIntent = Intent(applicationContext, SensorService::class.java)

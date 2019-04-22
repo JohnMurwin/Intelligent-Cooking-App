@@ -8,9 +8,7 @@ import android.support.v4.view.GestureDetectorCompat
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import java.util.ArrayList
 
 class favorites_page : AppCompatActivity() {
@@ -80,6 +78,9 @@ class favorites_page : AppCompatActivity() {
 
     }
 
+    // Saved Recipe Creator ==========================================================================================
+    // =================================================================================================================
+
     fun removeDuplicates(savedRecipe: ArrayList<*>) {
         for (i in savedRecipe.indices) {
             var duplicate = false
@@ -98,8 +99,19 @@ class favorites_page : AppCompatActivity() {
         }
     }
 
-    fun recipeCreator (recipe: String){}
+    fun recipeCreator (recipe: String){
+        val linearLayout = findViewById(R.id.linearLayout3) as LinearLayout
+        val textBox1 = TextView(this)
+        textBox1.text = recipe
 
+        // Macy: Somewhere here
+
+        linearLayout.addView(textBox1)
+        favoritesList.add(recipe)
+    }
+
+    // Gesture listener ================================================================================================
+    // =================================================================================================================
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureObject?.onTouchEvent(event)
