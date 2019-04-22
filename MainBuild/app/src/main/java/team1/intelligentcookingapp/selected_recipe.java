@@ -108,6 +108,7 @@ public class selected_recipe extends AppCompatActivity {
         });
 
         selected = false;
+        final String recipeTitle = title;
         star.setColorFilter(star.getContext().getResources().getColor(R.color.DarkGrey), PorterDuff.Mode.SRC_ATOP);
         star.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +116,10 @@ public class selected_recipe extends AppCompatActivity {
                 if (selected == false){
                     selected = true;
                     star.setColorFilter(star.getContext().getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
-                    favoritesList.add(titleHolder.getText().toString());
+
+                    String favoritesText = recipeTitle + " - " + webUrl;
+                    favoritesList.add(favoritesText);
+                    
                     Toast.makeText(getApplicationContext(), "Recipe Added To Favorites", Toast.LENGTH_SHORT).show();
                 }
                 else {

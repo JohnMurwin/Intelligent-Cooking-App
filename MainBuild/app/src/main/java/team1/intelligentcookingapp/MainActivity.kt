@@ -279,6 +279,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     val barcode = data.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)
                     val p = barcode.cornerPoints
                     mResultTextView.text = barcode.displayValue             //BARCODE VALUE HERE -> THROW THIS INTO THE VALUE ARRAY
+                    // ingredientsList.add(variable name here);
                 } else
                     mResultTextView.setText(R.string.no_barcode_captured)
             } else
