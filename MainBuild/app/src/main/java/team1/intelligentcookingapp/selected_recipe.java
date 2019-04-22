@@ -168,6 +168,7 @@ public class selected_recipe extends AppCompatActivity {
         TextView urlText = new TextView(LL.getContext());
         urlText.setText(webUrl);
         urlText.setTextSize(24);
+        urlText.setTextColor(Color.parseColor("#0026FF"));
         urlText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

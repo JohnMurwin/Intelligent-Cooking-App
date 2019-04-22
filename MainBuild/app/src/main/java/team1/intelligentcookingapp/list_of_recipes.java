@@ -22,7 +22,6 @@ public class list_of_recipes extends AppCompatActivity {
 
     // Used if result from list of ingredients = null
     String nullResultMsg;
-    int iter = 1;
 
     List<String> ingredientsList = new ArrayList<>();
     List<String> groceryList = new ArrayList<>();
@@ -63,8 +62,6 @@ public class list_of_recipes extends AppCompatActivity {
         favorites = (ImageView)findViewById(R.id.favoritesImage);
         grocery = (ImageView)findViewById(R.id.groceryImage);
         top_action_bar = (ImageView)findViewById(R.id.imageView4);
-        top_action_bar.setId(iter);
-        iter++;
 
         home.setColorFilter(home.getContext().getResources().getColor(R.color.blue), PorterDuff.Mode.SRC_ATOP);
         home.setOnClickListener(new View.OnClickListener() {

@@ -31,7 +31,6 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
     internal var groceryList: MutableList<String> = ArrayList()
     internal var favoritesList: MutableList<String> = ArrayList()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_grocery_page)
@@ -48,7 +47,6 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
         if (intent.hasExtra("grocery")) {
             groceryList = extras!!.getStringArrayList("grocery")
             removeDuplicates2(groceryList as ArrayList<String>)
-
         }
         if (intent.hasExtra("favorites")) {
             favoritesList = extras!!.getStringArrayList("favorites")
@@ -89,18 +87,18 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
             // Already on the grocery page
         })
 
-        // Find recipe button listener -------------------------------------------------------------
         findStores.setOnClickListener(View.OnClickListener {
             // Intent intent = new Intent (getBaseContext(), .class);
             // startActivity(intent);
         })
 
-        // Add image listener ----------------------------------------------------------------------
         addImage.setOnClickListener {
             checkBoxCreator(NewGroceryItem.getText().toString());
         }
-
     }
+
+    // Saved Grocery Creator ==========================================================================================
+    // =================================================================================================================
 
     fun removeDuplicates2(savedIngredient: ArrayList<*>) {
         for (i in savedIngredient.indices) {
@@ -119,6 +117,9 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
             }
         }
     }
+
+    // Add image CheckBox Creator ======================================================================================
+    // =================================================================================================================
 
     fun checkBoxCreator(newIngredient: String){
         val linearLayout = findViewById(R.id.linearLayout2) as LinearLayout
@@ -140,8 +141,10 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
                 groceryList.remove(newIngredient)
             }
         }
-
     }
+
+    // Gesture listener ================================================================================================
+    // =================================================================================================================
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureObject?.onTouchEvent(event)
@@ -163,7 +166,6 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
     }
 
     internal inner class LearnGesture : GestureDetector.SimpleOnGestureListener() {
-
         override fun onFling(
             event1: MotionEvent, event2: MotionEvent,
             velocityX: Float, velocityY: Float
@@ -211,9 +213,7 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
         bindService(sensorIntent, myServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
-
-    }
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
     override fun onSensorChanged(event: SensorEvent) {
         sensorIntent = Intent(applicationContext, SensorService::class.java)
@@ -222,7 +222,7 @@ class grocery_page : AppCompatActivity(), SensorEventListener {
         if (isServiceBound) {
             if (myService!!.shakeDetected()) {
                 clearIngredients()
-                ingredientsList.clear()
+                groceryList.clear()
             }
         }
     }
