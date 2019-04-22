@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         var findRecipes = findViewById(R.id.findRecipes) as Button
 
-        mResultTextView = findViewById(R.id.result_textview)
 
         // Onclick image listeners =================================================================
         // =========================================================================================
@@ -270,10 +269,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 if (data != null) {
                     val barcode = data.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)
                     val p = barcode.cornerPoints
-                    mResultTextView.text = barcode.displayValue             //BARCODE VALUE HERE -> THROW THIS INTO THE VALUE ARRAY
-                    // ingredientsList.add(variable name here);
-                } else
-                    mResultTextView.setText(R.string.no_barcode_captured)
+                    ingredientsList.add(barcode.displayValue)
+
+
+
+                }
             } else
                 Log.e(LOG_TAG, String.format(getString(R.string.barcode_error_format),
                     CommonStatusCodes.getStatusCodeString(resultCode)))
