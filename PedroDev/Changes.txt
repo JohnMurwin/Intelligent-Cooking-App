@@ -1,4 +1,0 @@
-- The three main pages for the app were created along with the declarations for thier variables.
-- Imported all the images we might need for the project.
-- Also I edited the colors.xml and styles.xml with additional values to use later on in the 
-design process.  
